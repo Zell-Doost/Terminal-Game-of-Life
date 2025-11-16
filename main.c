@@ -14,7 +14,7 @@
 #define DEFAULT_HEIGHT 60
 
 bool handle_input(int* cRow, int* cCol, bool* isGameRun, BitVect* gameState,
-        int height, int width)
+        int height, int width, bool* isExit)
 {
     char letter = '\0';
     letter = getch();
@@ -37,11 +37,13 @@ bool handle_input(int* cRow, int* cCol, bool* isGameRun, BitVect* gameState,
             (*cCol)++;
         break;
     case 'j':
+        bit_vect_comp(gameState, POS(*cRow, *cCol));
         break;
     case 'k':
+        *isGameRun = !(*isGameRun);
         break;
     case 'l':
-        *isGameRun = !(*isGameRun);
+        *isExit = true;
         break;
     default:
         return false;
@@ -76,11 +78,11 @@ int main(int argc, char* argv[])
     //bit_vect_set(&gameState, POS(11, 11), true);
     
     //GLIDER
-    bit_vect_set(&gameState, POS(2, 3), true);
-    bit_vect_set(&gameState, POS(3, 4), true);
-    bit_vect_set(&gameState, POS(4, 2), true);
-    bit_vect_set(&gameState, POS(4, 3), true);
-    bit_vect_set(&gameState, POS(4, 4), true);
+    //bit_vect_set(&gameState, POS(2, 3), true);
+    //bit_vect_set(&gameState, POS(3, 4), true);
+    //bit_vect_set(&gameState, POS(4, 2), true);
+    //bit_vect_set(&gameState, POS(4, 3), true);
+    //bit_vect_set(&gameState, POS(4, 4), true);
 
 
 
@@ -100,7 +102,9 @@ int main(int argc, char* argv[])
     int cRow = 0;
     int cCol = 0;
 
-    for (;;) {
+    bool isExit = false;
+
+    while (!isExit) {
 
         if (isChange) {
             clear();
@@ -127,7 +131,7 @@ int main(int argc, char* argv[])
         }
 
 
-        isChange = handle_input(&cRow, &cCol, &isGameRun, &gameState, height, width);
+        isChange = handle_input(&cRow, &cCol, &isGameRun, &gameState, height, width, &isExit);
 
         if (isGameRun) {
             next_state(&gameState, width, height);
