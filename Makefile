@@ -9,7 +9,8 @@ O=linux
 LIBS= -lncurses -lm 
 
 OBJS= 						\
-			$(O)/ruleEnforcement.o
+			$(O)/ruleEnforcement.o  \
+			$(O)/dataStruct.o
 
 all:	$(O)/gameOfLife
 
