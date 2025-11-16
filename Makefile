@@ -9,7 +9,7 @@ O=linux
 LIBS= -lncurses -lm 
 
 OBJS= 						\
-			#$(O)/UI_attr.o
+			$(O)/ruleEnforcement.o
 
 all:	$(O)/gameOfLife
 

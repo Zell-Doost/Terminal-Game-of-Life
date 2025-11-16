@@ -6,12 +6,11 @@
 #include <sys/ioctl.h>
 #include <unistd.h>
 #include <time.h>
+#include "ruleEnforcement.h"
 
 
-#define DEFAULT_WIDTH 10
-#define DEFAULT_HEIGHT 10
-
-#define POS(r, c) ((r * width) + c)
+#define DEFAULT_WIDTH 100
+#define DEFAULT_HEIGHT 100
 
 int main(int argc, char* argv[])
 {
@@ -21,7 +20,12 @@ int main(int argc, char* argv[])
     memset(gameState, ' ', width * height);
     gameState[width * height] = '\0';
 
-    gameState[28] = 'A';
+    gameState[POS(10, 10)] = '#';
+    gameState[POS(10, 11)] = '#';
+    gameState[POS(10, 12)] = '#';
+    gameState[POS(11, 9)] = '#';
+    gameState[POS(11, 10)] = '#';
+    gameState[POS(11, 11)] = '#';
 
     initscr();
     struct winsize w;
@@ -36,7 +40,6 @@ int main(int argc, char* argv[])
     for (;;) {
 	clear();
 
-
 	for (int i = 0; i < height; i++) {
 	    char line[width + 2];
 	    move(i, 0);
@@ -47,7 +50,12 @@ int main(int argc, char* argv[])
 	}
 
 	refresh();
-	usleep(48000);
+        next_state(gameState, width, height);
+
+
+	//usleep(48000);
+	usleep(250000);
+        //sleep(1);
     }
 
     free(gameState);
